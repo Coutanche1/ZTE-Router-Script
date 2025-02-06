@@ -242,23 +242,30 @@ function prepare_1()
     prepare_2();
 }
 
-function make_hidden_settings_visible()
-{
+function make_hidden_settings_visible() {
     alert("This option makes hidden device settings visible.\n" +
           "Hidden settings are marked with a '[hidden option]' suffix");
 
-    window.setInterval(function() {
-        Array.from(document.querySelectorAll('*')).forEach(el => {
-            // $(el).hide();
-            // $(el).show();
-            if($("#ipv4_section").length > 0) {
-                $('#ipv4_section .row').css('display', 'block');
-            }
-            if (el.classList.contains("hide")) {
-                el.classList.remove("hide");
-                el.innerHTML += "&nbsp;[hidden option]";
-            }
-        })},
+    // Directly execute the following code without using setInterval
+    document.querySelectorAll('*').forEach(el => {
+        // Ensure IPv4 section rows are always visible
+        if (document.querySelector("#ipv4_section")) {
+            document.querySelectorAll('#ipv4_section .row').forEach(row => {
+                row.style.display = 'block';
+            });
+        }
+
+        // Check for elements with the 'hide' class and modify them
+        if (el.classList.contains("hide")) {
+            el.classList.remove("hide"); // Make the element visible
+            el.innerHTML += "&nbsp;[hidden option]"; // Add the hidden option label
+        }
+    });
+}
+
+// Call the function immediately when the script runs
+make_hidden_settings_visible();
+
     1000);
 }
 
